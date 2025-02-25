@@ -1,0 +1,6 @@
+pandas
+jupyter
+sqlalchemy
+pyyaml
+psycopg2
+kaggle
