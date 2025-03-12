@@ -1,66 +1,107 @@
-# ETL Class Project
+# 🎬 Análisis de la Industria Cinematográfica - Proyecto ETL y EDA
 
-## Autor: Alejandro Arteaga Jaramillo
+## 📌 Autor: Alejandro Arteaga Jaramillo
 
-### Descripción del Proyecto
+## 📖 Descripción del Proyecto
 
-Este proyecto tiene como objetivo analizar la evolución de la industria cinematográfica mediante la extracción, transformación y carga (ETL) de datos del dataset "Full IMDb Movies Data", disponible en Kaggle. Se busca identificar patrones en el éxito de las películas, cambios en las preferencias del público y la influencia de factores como presupuesto, críticas y estrategias de lanzamiento.
+Este proyecto analiza la evolución de la industria cinematográfica mediante un proceso **ETL** (Extracción, Transformación y Carga) y un **Análisis Exploratorio de Datos (EDA)**. Utiliza el dataset **"Full IMDb Movies Data"** de Kaggle para identificar patrones de éxito en las películas, cambios en las preferencias del público y la influencia de factores como presupuesto y estrategias de lanzamiento.
 
-### Problema y Contexto
+---
 
-La industria del cine ha cambiado significativamente debido a avances tecnológicos, la llegada de plataformas de streaming y cambios en la cultura del consumidor. Para entender estas transformaciones, el proyecto se enfoca en responder preguntas clave como:
+## 🎯 Problema y Contexto
 
-- ¿Qué factores influyen en el éxito de una película?
-- ¿Cómo han cambiado las preferencias del público?
-- ¿Cómo afectan el presupuesto y la estrategia de lanzamiento al éxito comercial?
-- ¿Cómo han evolucionado las críticas y la percepción del público?
+La industria del cine ha cambiado significativamente debido a avances tecnológicos y el auge del streaming. Este proyecto busca responder preguntas clave:
 
-### Descripción del Dataset
+✔️ ¿Qué factores influyen en el éxito de una película?  
+✔️ ¿Cómo han cambiado las preferencias del público a lo largo del tiempo?  
+✔️ ¿Cómo afectan el presupuesto y la estrategia de lanzamiento al rendimiento comercial?  
+✔️ ¿Cómo han evolucionado las críticas y la percepción del público?
 
-El dataset "Full IMDb Movies Data" contiene información detallada sobre películas desde 1990 hasta la actualidad, incluyendo:
+---
 
-- **Variables principales:**
-  - id, title, vote_average, vote_count, status, release_date, revenue, runtime, adult, budget, imdb_id, original_language, original_title, overview, popularity, tagline, genres, production_companies, production_countries, spoken_languages, keywords.
-- **Cantidad de registros:** 903,263 filas originales, reducidas a aproximadamente 98,000 para optimizar el análisis.
+## 🗂️ Descripción del Dataset
 
-### Proceso ETL
+El dataset **"Full IMDb Movies Data"** contiene información detallada sobre películas desde 1990 hasta la actualidad.
 
-1. **Extracción:**
-   - Configuración de la API de Kaggle y descarga del dataset.
-   - Descompresión de los archivos y carga en un DataFrame de Pandas.
-2. **Transformación:**
-   - Reducción del dataset a aproximadamente 98,000 registros para mejorar la eficiencia.
-   - Ajuste de la longitud de columnas extensas (ej. Keywords) para evitar problemas en la carga de datos.
-3. **Carga:**
-   - Creación de una base de datos y tabla en PostgreSQL.
-   - Inserción de datos procesados en la base de datos.
-   - Validación de la carga mediante consultas en pgAdmin4.
+📌 **Variables principales:**  
+`id`, `title`, `vote_average`, `vote_count`, `status`, `release_date`, `revenue`, `runtime`, `adult`, `budget`, `imdb_id`, `original_language`, `genres`, `production_companies`, `keywords`, entre otros.
 
-### Herramientas Utilizadas
+📌 **Registros:**  
+903,263 filas originales, reducidas a ~98,000 para mejorar la eficiencia del análisis.
 
-- **Python** (Pandas, NumPy, SQLAlchemy)
-- **PostgreSQL** (pgAdmin4 para validación de datos)
-- **Kaggle API** (Extracción del dataset)
+---
 
-### Resultados y Aplicaciones
+## 🔄 Proceso ETL
 
-Este análisis puede ser útil para:
+### 🔹 1. **Extracción**
+- Se configura la API de Kaggle y se descarga el dataset.
+- Se descomprime y carga en un DataFrame de Pandas.
 
-- Identificar tendencias en la industria cinematográfica.
-- Desarrollar sistemas de recomendación basados en géneros o valoraciones.
-- Evaluar la rentabilidad de las películas según su presupuesto e ingresos.
-- Visualizar tendencias en estrenos de películas a lo largo del tiempo.
+### 🔹 2. **Transformación**
+- Se reduce el dataset a ~98,000 registros optimizando su manejo.
+- Se limpian valores nulos y se ajustan columnas extensas.
+- Se convierten los valores textuales `"nan"` en valores adecuados para el análisis.
+- Se crean nuevas variables como `has_profit` (si una película generó ganancias).
 
-### Cómo Ejecutar el Proyecto
+### 🔹 3. **Carga**
+- Se crea una base de datos en PostgreSQL.
+- Se inserta el dataset transformado en una tabla.
+- Se validan los datos mediante consultas en **pgAdmin4**.
 
-1. Descargar el dataset desde Kaggle o ejecutar el script de extracción.
-2. Descargar la api key de kaggle (Se puede encontrar en la seccion peril)
-3. Cambiar las direcciones de ubicacion del archivo .json de kaggle y del directorio donde se desea almacenar el dataset (Celda 1 y 2) 
-4. Instalar las dependencias necesarias con:
+---
+
+## 📊 Análisis Exploratorio de Datos (EDA)
+
+Se realizan distintos análisis visuales y estadísticos para extraer insights de los datos. Algunos puntos clave incluyen:
+
+📌 **Distribución de películas por género:** Identificación de los géneros más frecuentes.  
+📌 **Puntuaciones promedio por género:** Evaluación de la percepción del público.  
+📌 **Presupuesto promedio por género:** Relación entre inversión y éxito.  
+📌 **Comparación de películas con y sin ganancias:** Evaluación de rentabilidad.  
+
+---
+
+## 🛠️ Herramientas Utilizadas
+
+✅ **Lenguajes y Librerías:**  
+Python (Pandas, NumPy, Matplotlib, Seaborn, SQLAlchemy)  
+
+✅ **Base de Datos:**  
+PostgreSQL + pgAdmin4  
+
+✅ **Extracción de Datos:**  
+Kaggle API  
+
+✅ **Análisis y Visualización:**  
+Jupyter Notebooks  
+
+---
+
+## 🚀 Cómo Ejecutar el Proyecto
+
+1️⃣ **Descargar el dataset** desde Kaggle o ejecutar el script de extracción.  
+2️⃣ **Instalar dependencias** con:
    ```bash
-   pip install pandas numpy sqlalchemy psycopg2 kaggle
-   ```
-5. Configurar la conexión a PostgreSQL en el código.
-6. Ejecutar los notebooks en el siguiente orden:
-   - `002_EXTRACT.ipynb` (Extracción y transformación de datos)
-7. Verificar los datos en pgAdmin4.
+   pip install pandas numpy sqlalchemy psycopg2 kaggle matplotlib seaborn
+```
+3️⃣ Configurar la conexión a PostgreSQL en el código.
+
+4️⃣ Ejecutar los notebooks en el siguiente orden:
+- 002_EXTRACT.ipynb → Extracción y transformación de datos.
+- EDA.ipynb → Análisis exploratorio de datos.
+  
+5️⃣ Verificar los resultados en gráficos y consultas SQL.
+
+## 📈 Resultados y Aplicaciones
+
+🔹 Identificar tendencias en la industria del cine.
+
+🔹 Desarrollar sistemas de recomendación de películas.
+
+🔹 Evaluar la rentabilidad de películas según su presupuesto.
+
+🔹 Analizar el impacto del streaming y cambios en preferencias del público.
+
+## 📩 Contacto
+📌 Alejandro Arteaga Jaramillo
+🔗 LinkedIn | 🐙 GitHub | ✉️ Email
