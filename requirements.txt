@@ -4,3 +4,6 @@ sqlalchemy
 pyyaml
 psycopg2
 kaggle
+mysql-connector-python
+matplotlib
+seaborn
