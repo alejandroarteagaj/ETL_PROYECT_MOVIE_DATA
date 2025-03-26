@@ -1,10 +1,12 @@
-# 🎬 Análisis de la Industria Cinematográfica - Proyecto ETL y EDA
+# 🎬 Análisis de la Industria Cinematográfica - Proyecto ETL con Apache Airflow
 
-## 📌 Autor: Alejandro Arteaga Jaramillo
+## 📀 Autor: Alejandro Arteaga Jaramillo
 
-## 📖 Descripción del Proyecto
+## 📚 Descripción del Proyecto
 
-Este proyecto analiza la evolución de la industria cinematográfica mediante un proceso **ETL** (Extracción, Transformación y Carga) y un **Análisis Exploratorio de Datos (EDA)**. Utiliza el dataset **"Full IMDb Movies Data"** de Kaggle para identificar patrones de éxito en las películas, cambios en las preferencias del público y la influencia de factores como presupuesto y estrategias de lanzamiento.
+Este proyecto implementa un pipeline **ETL (Extracción, Transformación y Carga)** automatizado con **Apache Airflow** para analizar la evolución de la industria cinematográfica. Además, se realiza un **Análisis Exploratorio de Datos (EDA)** y se presentan visualizaciones en **Grafana**.
+
+El objetivo es identificar patrones de éxito en las películas, analizar la evolución de preferencias del público y evaluar la influencia del presupuesto en el rendimiento comercial.
 
 ---
 
@@ -15,93 +17,126 @@ La industria del cine ha cambiado significativamente debido a avances tecnológi
 ✔️ ¿Qué factores influyen en el éxito de una película?  
 ✔️ ¿Cómo han cambiado las preferencias del público a lo largo del tiempo?  
 ✔️ ¿Cómo afectan el presupuesto y la estrategia de lanzamiento al rendimiento comercial?  
-✔️ ¿Cómo han evolucionado las críticas y la percepción del público?
+✔️ ¿Cómo han evolucionado las críticas y la percepción del público?  
 
 ---
 
-## 🗂️ Descripción del Dataset
+## 📂 Descripción del Dataset
 
 El dataset **"Full IMDb Movies Data"** contiene información detallada sobre películas desde 1990 hasta la actualidad.
 
-📌 **Variables principales:**  
+📀 **Variables principales:**  
 `id`, `title`, `vote_average`, `vote_count`, `status`, `release_date`, `revenue`, `runtime`, `adult`, `budget`, `imdb_id`, `original_language`, `genres`, `production_companies`, `keywords`, entre otros.
 
-📌 **Registros:**  
+📀 **Registros:**  
 903,263 filas originales, reducidas a ~98,000 para mejorar la eficiencia del análisis.
 
 ---
 
-## 🔄 Proceso ETL
+## 🔄 Proceso ETL con Apache Airflow
 
-### 🔹 1. **Extracción**
-- Se configura la API de Kaggle y se descarga el dataset.
-- Se descomprime y carga en un DataFrame de Pandas.
+### 💡 Arquitectura
 
-### 🔹 2. **Transformación**
-- Se reduce el dataset a ~98,000 registros optimizando su manejo.
-- Se limpian valores nulos y se ajustan columnas extensas.
-- Se convierten los valores textuales `"nan"` en valores adecuados para el análisis.
-- Se crean nuevas variables como `has_profit` (si una película generó ganancias).
+El proceso ETL se gestiona mediante **Apache Airflow**, utilizando DAGs para orquestar las tareas.
 
-### 🔹 3. **Carga**
-- Se crea una base de datos en PostgreSQL.
-- Se inserta el dataset transformado en una tabla.
-- Se validan los datos mediante consultas en **pgAdmin4**.
+- **Extracción:** Descarga de datos desde Kaggle y APIs externas.
+- **Transformación:** Limpieza de datos con Pandas y generación de nuevas variables.
+- **Carga:** Inserción de datos en PostgreSQL para su análisis y visualización en Grafana.
 
----
+### 🔹 Estructura del DAG
 
-## 📊 Análisis Exploratorio de Datos (EDA)
-
-Se realizan distintos análisis visuales y estadísticos para extraer insights de los datos. Algunos puntos clave incluyen:
-
-📌 **Distribución de películas por género:** Identificación de los géneros más frecuentes.  
-📌 **Puntuaciones promedio por género:** Evaluación de la percepción del público.  
-📌 **Presupuesto promedio por género:** Relación entre inversión y éxito.  
-📌 **Comparación de películas con y sin ganancias:** Evaluación de rentabilidad.  
-
----
-
-## 🛠️ Herramientas Utilizadas
-
-✅ **Lenguajes y Librerías:**  
-Python (Pandas, NumPy, Matplotlib, Seaborn, SQLAlchemy)  
-
-✅ **Base de Datos:**  
-PostgreSQL + pgAdmin4  
-
-✅ **Extracción de Datos:**  
-Kaggle API  
-
-✅ **Análisis y Visualización:**  
-Jupyter Notebooks  
-
----
-
-## 🚀 Cómo Ejecutar el Proyecto
-
-1️⃣ **Descargar el dataset** desde Kaggle o ejecutar el script de extracción.  
-2️⃣ **Instalar dependencias** con:
-   ```bash
-   pip install pandas numpy sqlalchemy psycopg2 kaggle matplotlib seaborn
+```plaintext
+etl_movies_dag
+|
+|-- task_extract_data  (Extrae los datos de Kaggle)
+|-- task_transform_data (Limpia y procesa los datos con Pandas)
+|-- task_load_data (Carga los datos en PostgreSQL)
+|-- task_validate_data (Ejecuta validaciones sobre los datos cargados)
 ```
-3️⃣ Configurar la conexión a PostgreSQL en el código.
 
-4️⃣ Ejecutar los notebooks en el siguiente orden:
-- 002_EXTRACT.ipynb → Extracción y transformación de datos.
-- EDA.ipynb → Análisis exploratorio de datos.
-  
-5️⃣ Verificar los resultados en gráficos y consultas SQL.
+### 🔹 Archivos clave
 
-## 📈 Resultados y Aplicaciones
+- `dags/etl_movies.py` - Define el DAG y sus tareas.
+- `scripts/extract.py` - Maneja la extracción de datos.
+- `scripts/transform.py` - Realiza la limpieza y transformación.
+- `scripts/load.py` - Inserta los datos en PostgreSQL.
 
-🔹 Identificar tendencias en la industria del cine.
+---
 
-🔹 Desarrollar sistemas de recomendación de películas.
+## 📊 Visualización con Grafana
 
-🔹 Evaluar la rentabilidad de películas según su presupuesto.
+Los datos procesados se visualizan en **Grafana**, permitiendo el análisis de:
 
-🔹 Analizar el impacto del streaming y cambios en preferencias del público.
+- **Distribución de películas por género**.
+- **Puntuaciones promedio por género**.
+- **Presupuesto promedio por género**.
+- **Comparación de rentabilidad de películas**.
+
+Los dashboards se conectan a la base de datos PostgreSQL para extraer los datos en tiempo real.
+
+---
+
+## 🛠️ Instalación y Ejecución
+
+### 👉 Prerrequisitos
+
+- **Python 3.8+**
+- **Apache Airflow 2.7+**
+- **PostgreSQL 14+**
+- **Grafana**
+
+### 👉 Configuración de Carpetas y Rutas
+
+Antes de ejecutar Airflow o los scripts, es necesario:
+
+1. **Crear la carpeta `config/`** y colocar dentro el archivo `kaggle.json` para autenticar la descarga de datos.
+2. **Crear la carpeta `data/`** donde se almacenará el dataset descargado y procesado.
+3. **Configurar la ruta de trabajo** en Airflow y en los scripts ETL para que apunten a las carpetas correctas.
+
+### 👉 Instalación
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/alejandroarteagaj/ETL_PROYECT_MOVIE_DATA.git
+cd ETL_PROYECT_MOVIE_DATA
+
+# Crear y activar entorno virtual
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+```
+
+### 👉 Ejecutar Apache Airflow
+
+```bash
+# Inicializar la base de datos de Airflow
+airflow db init
+
+# Crear un usuario administrador
+airflow users create \
+    --username admin \
+    --firstname Alejandro \
+    --lastname Arteaga \
+    --role Admin \
+    --email admin@example.com
+
+# Iniciar el scheduler y webserver
+airflow scheduler &
+airflow webserver &
+```
+
+### 👉 Ejecutar el DAG ETL en Airflow
+
+1. Abre Airflow en el navegador: [http://localhost:8080](http://localhost:8080).
+2. Habilita y ejecuta el DAG `etl_movies_dag`.
+3. Verifica la carga de datos en PostgreSQL.
+
+---
 
 ## 📩 Contacto
 📌 Alejandro Arteaga Jaramillo
 🔗 LinkedIn | 🐙 GitHub | ✉️ Email
+
+
